@@ -1,0 +1,7 @@
+{
+  "name": "geditor",
+  "version": "1.0.0",
+  "dependencies": {
+    "mxgraph": "^4.0.6"
+  }
+}
