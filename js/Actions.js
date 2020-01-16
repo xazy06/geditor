@@ -11,6 +11,30 @@ function Actions(editorUi)
   this.init();
 };
 
+var testFn = function testFn(graph, count){
+  var model = graph.model;
+  var parent = graph.getDefaultParent();
+  var start, end;
+
+  model.beginUpdate();
+
+  start = +new Date();
+
+  for(var i=0; i < count; i++) {
+    graph.insertVertex(parent, null, i, 20 + i, 20 + i, 80, 30);
+  }
+
+  // var v1 = graph.insertVertex(parent, null, 'Hello,', 20, 20, 80, 30);
+  // var v2 = graph.insertVertex(parent, null, 'World!', 200, 150, 80, 30);
+  // var e1 = graph.insertEdge(parent, null, '', v1, v2);
+
+  model.endUpdate();
+
+  end = +new Date();
+
+  alert(end-start + 'ms');
+};
+
 /**
  * Adds the default actions.
  */
@@ -844,6 +868,31 @@ Actions.prototype.init = function()
       showingAbout = true;
     }
   }, null, null, 'F1'));
+
+  // Test actions
+  this.addAction('1000', function()
+  {
+    var ext = '';
+
+    if (mxResources.isLanguageSupported(mxClient.language))
+    {
+      ext = '_' + mxClient.language;
+    }
+
+    testFn(graph, 1000);
+  });
+
+  this.addAction('2000', function()
+  {
+    var ext = '';
+
+    if (mxResources.isLanguageSupported(mxClient.language))
+    {
+      ext = '_' + mxClient.language;
+    }
+
+    testFn(graph, 2000);
+  });
 
   // Font style actions
   var toggleFontStyle = mxUtils.bind(this, function(key, style, fn, shortcut)
