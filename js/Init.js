@@ -1,5 +1,6 @@
 // urlParams is null when used for embedding
 window.urlParams = window.urlParams || {};
+window.mxLanguage  = 'ru';
 
 // Public global variables
 window.MAX_REQUEST_SIZE = window.MAX_REQUEST_SIZE  || 10485760;
@@ -26,4 +27,4 @@ window.OPEN_FORM = window.OPEN_FORM || 'open.html';
 // each properties file since only one file is loaded.
 window.mxBasePath = window.mxBasePath || 'node_modules/mxgraph/javascript/src';
 window.mxLanguage = window.mxLanguage || urlParams['lang'];
-window.mxLanguages = window.mxLanguages || ['de'];
+window.mxLanguages = window.mxLanguages || ['ru'];
