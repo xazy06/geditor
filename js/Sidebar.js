@@ -82,7 +82,8 @@ Sidebar.prototype.init = function()
   var dir = STENCIL_PATH;
 
   this.addSearchPalette(true);
-  this.addGeneralPalette(true);
+  this.addTopologyPallete(true);
+  //this.addGeneralPalette(true);
   this.addMiscPalette(false);
   //this.addAdvancedPalette(false);
   //this.addBasicPalette(dir);
@@ -962,6 +963,22 @@ Sidebar.prototype.insertSearchHint = function(div, searchTerm, count, page, resu
     mxUtils.write(err, mxResources.get('noResultsFor', [searchTerm]));
     div.appendChild(err);
   }
+};
+
+Sidebar.prototype.addTopologyPallete = function(expand) {
+  var pallete = window.pallete || [];
+  var fns = [];
+  var _this = this;
+
+  _.each(pallete, function(item) {
+    var tag = item.graphics[0].shapeName.toLowerCase();
+
+    fns.push(
+      _this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', 120, 60, item.defaultText, item.displayName, true, true, tag)
+    )
+  });
+
+  this.addPaletteFunctions('topology', 'Склад', (expand != null) ? expand : true, fns);
 };
 
 /**
@@ -3572,8 +3589,7 @@ Sidebar.prototype.getTagsForStencil = function(packageName, stencilName, moreTag
 /**
  * Adds the given stencil palette.
  */
-Sidebar.prototype.addStencilPalette = function(id, title, stencilFile, style, ignore, onInit, scale, tags, customFns)
-{
+Sidebar.prototype.addStencilPalette = function(id, title, stencilFile, style, ignore, onInit, scale, tags, customFns) {
   scale = (scale != null) ? scale : 1;
 
   if (this.addStencilsToIndex)
