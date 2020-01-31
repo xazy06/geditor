@@ -3820,6 +3820,17 @@ EditorUi.prototype.showLinkDialog = function(value, btnLabel, fn)
 };
 
 /**
+ * TODO
+ */
+EditorUi.prototype.getCellDataModel = function(cell)
+{
+  if (cell != null)
+  {
+
+  }
+};
+
+/**
  * Hides the current menu.
  */
 EditorUi.prototype.showDataDialog = function(cell)

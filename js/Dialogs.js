@@ -1488,7 +1488,10 @@ ExportDialog.saveLocalFile = function(editorUi, data, filename, format)
       encodeURIComponent(filename) + '&format=' + format);
       //debugger
       //req.simulate(document, '_blank');
-      req.send();
+      req.send(function(r){
+        //debugger
+        window.open(r.request.responseText, '_blank')
+      });
   }
   else
   {
@@ -1502,10 +1505,15 @@ ExportDialog.saveLocalFile = function(editorUi, data, filename, format)
  */
 var EditDataDialog = function(ui, cell)
 {
+  //debugger
   var div = document.createElement('div');
   var graph = ui.editor.graph;
 
   var value = graph.getModel().getValue(cell);
+
+  var topologyId = cell._getId();
+
+  var topologyPropertiesMap = null;
 
   // Converts the value to an XML node
   if (!mxUtils.isNode(value))
@@ -1649,6 +1657,7 @@ var EditDataDialog = function(ui, cell)
   newProp.style.whiteSpace = 'nowrap';
   newProp.style.marginTop = '6px';
   newProp.style.width = '100%';
+  newProp.style.visibility = 'hidden'
 
   var nameInput = document.createElement('input');
   nameInput.setAttribute('placeholder', mxResources.get('enterPropertyName'));
@@ -1664,6 +1673,7 @@ var EditDataDialog = function(ui, cell)
 
   var addBtn = mxUtils.button(mxResources.get('addProperty'), function()
   {
+    //debugger
     var name = nameInput.value;
 
     // Avoid ':' in attribute names which seems to be valid in Chrome
@@ -1712,8 +1722,71 @@ var EditDataDialog = function(ui, cell)
     }
   });
 
-  this.init = function()
-  {
+  this.getTopologyProperties = function (id) {
+    return _.where(pallete, {'displayName': id})[0].properties;
+  };
+
+  this.initialSetupProps = function (initialNames) {
+    initialNames = initialNames || []
+
+    var namesMap = _.map(initialNames, function(nm){
+      return nm.displayName
+    })
+
+    if(names.length > 0) {
+      return
+    }
+
+    for(var i in namesMap) {
+      if(namesMap.hasOwnProperty(i)){
+        set(namesMap[i])
+      }
+    }
+
+    function set(name) {
+      // Avoid ':' in attribute names which seems to be valid in Chrome
+      if (name.length > 0 && name !== 'label' && name !== 'placeholders' && name.indexOf(':') < 0) {
+        try {
+          var idx = mxUtils.indexOf(names, name);
+
+          if (idx >= 0 && texts[idx] != null) {
+            texts[idx].focus();
+          }
+          else {
+            // Checks if the name is valid
+            var clone = value.cloneNode(false);
+            clone.setAttribute(name, '');
+
+            if (idx >= 0) {
+              names.splice(idx, 1);
+              texts.splice(idx, 1);
+            }
+
+            names.push(name);
+            var text = form.addTextarea(name + ':', '', 2);
+            text.style.width = '100%';
+            texts.push(text);
+            addRemoveButton(text, name);
+          }
+        }
+        catch (e) {
+          mxUtils.alert(e);
+        }
+      }
+      else {
+        mxUtils.alert(mxResources.get('invalidName'));
+      }
+
+    }
+  };
+
+  this.init = function() {
+    console.log('init dialog');
+
+    topologyPropertiesMap = this.getTopologyProperties(topologyId);
+
+    this.initialSetupProps(topologyPropertiesMap)
+
     if (texts.length > 0)
     {
       texts[0].focus();
@@ -1722,7 +1795,7 @@ var EditDataDialog = function(ui, cell)
     {
       nameInput.focus();
     }
-  };
+  }.bind(this);
 
   addBtn.setAttribute('title', mxResources.get('addProperty'));
   addBtn.setAttribute('disabled', 'disabled');
@@ -1732,6 +1805,7 @@ var EditDataDialog = function(ui, cell)
   addBtn.style.width = '144px';
   addBtn.style.right = '0px';
   addBtn.className = 'geBtn';
+  addBtn.style.visibility = 'hidden'
   newProp.appendChild(addBtn);
 
   var cancelBtn = mxUtils.button(mxResources.get('cancel'), function()
