@@ -159,6 +159,85 @@ api('GetPalette').then(function (data) {
         "url": "",
         "jsMethod": ""
       }
+    },
+    {
+      "displayName": "Стеллаж",
+      "className": "Rack",
+      "groupName": "",
+      "frame": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 300,
+        "y2": 3000
+      },
+      "graphics": [
+        {
+          "frame": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 1000,
+            "y2": 2708
+          },
+          "shapeName": "Rectangle"
+        }
+      ],
+      "defaultSize": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 1000,
+        "y2": 2708
+      },
+      "minSize": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 1000,
+        "y2": 2708
+      },
+      "maxSize": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 1000,
+        "y2": 2708
+      },
+      "defaultText": "Стеллаж",
+      "properties": [
+        {
+          "displayName": "Номер",
+          "propName": "Nr",
+          "groupName": "Общее",
+          "propType": "String",
+          "dataSource": {
+            "url": "",
+            "jsMethod": ""
+          },
+          "onChange": {
+            "url": "",
+            "jsMethod": ""
+          }
+        },
+        {
+          "displayName": "Штрихкод",
+          "propName": "Barcode",
+          "groupName": "Общее",
+          "propType": "String",
+          "dataSource": {
+            "url": "",
+            "jsMethod": ""
+          },
+          "onChange": {
+            "url": "",
+            "jsMethod": ""
+          }
+        }
+      ],
+      "onDblClick": {
+        "url": "",
+        "jsMethod": ""
+      },
+      "onChange": {
+        "url": "",
+        "jsMethod": ""
+      }
     }
   ];
 

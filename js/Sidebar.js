@@ -978,11 +978,11 @@ Sidebar.prototype.addTopologyPallete = function(expand) {
 
     if(item.groupName === '') {
       miscs.push(_this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', item.defaultSize.x2/10, item.defaultSize.y2/10, item.defaultText, item.displayName, true, true, tag))
+    }else{
+      // width item.defaultSize.x2
+      //height item.defaultSize.y2
+      fns[item.groupName].push(_this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', item.defaultSize.x2/10, item.defaultSize.y2/10, item.defaultText, item.displayName, true, true, tag))
     }
-
-    // width item.defaultSize.x2
-    //height item.defaultSize.y2
-    fns[item.groupName].push(_this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', item.defaultSize.x2/10, item.defaultSize.y2/10, item.defaultText, item.displayName, true, true, tag))
   });
 
   for(var i in  fns) {
