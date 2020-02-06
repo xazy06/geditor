@@ -365,6 +365,7 @@ Format.prototype.refresh = function()
   label.style.height = (mxClient.IS_QUIRKS) ? '34px' : '25px';
   label.style.overflow = 'hidden';
   label.style.width = '100%';
+  label.style.textOverflow = 'ellipsis';
   this.container.appendChild(div);
 
   // Prevents text selection

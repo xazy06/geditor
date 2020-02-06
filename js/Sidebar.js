@@ -8,8 +8,8 @@ function Sidebar(editorUi, container)
 {
   this.editorUi = editorUi;
   this.container = container;
-  this.palettes = new Object();
-  this.taglist = new Object();
+  this.palettes = {};
+  this.taglist = {};
   this.showTooltips = true;
   this.graph = editorUi.createTemporaryGraph(this.editorUi.editor.graph.getStylesheet());
   this.graph.cellRenderer.minSvgStrokeWidth = this.minThumbStrokeWidth;
@@ -84,7 +84,7 @@ Sidebar.prototype.init = function()
   this.addSearchPalette(true);
   this.addTopologyPallete(true);
   //this.addGeneralPalette(true);
-  this.addMiscPalette(false);
+  //this.addMiscPalette(false);
   //this.addAdvancedPalette(false);
   //this.addBasicPalette(dir);
   //this.addStencilPalette('arrows', mxResources.get('arrows'), dir + '/arrows.xml', ';whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2');
@@ -728,7 +728,7 @@ Sidebar.prototype.addSearchPalette = function(expand)
   var active = false;
   var complete = false;
   var page = 0;
-  var hash = new Object();
+  var hash = {};
 
   // Count is dynamically updated below
   var count = 12;
@@ -781,7 +781,7 @@ Sidebar.prototype.addSearchPalette = function(expand)
         {
           clearDiv();
           searchTerm = input.value;
-          hash = new Object();
+          hash = {};
           complete = false;
           page = 0;
         }
@@ -795,7 +795,7 @@ Sidebar.prototype.addSearchPalette = function(expand)
           active = true;
 
           // Ignores old results
-          var current = new Object();
+          var current = {};
           this.currentSearch = current;
 
           this.searchEntries(searchTerm, count, page, mxUtils.bind(this, function(results, len, more, terms)
@@ -865,7 +865,7 @@ Sidebar.prototype.addSearchPalette = function(expand)
       clearDiv();
       input.value = '';
       searchTerm = '';
-      hash = new Object();
+      hash = {};
       button.style.display = 'none';
       complete = false;
       input.focus();
@@ -967,18 +967,33 @@ Sidebar.prototype.insertSearchHint = function(div, searchTerm, count, page, resu
 
 Sidebar.prototype.addTopologyPallete = function(expand) {
   var pallete = window.pallete || [];
-  var fns = [];
+  var fns = {}, miscs = [];
   var _this = this;
 
   _.each(pallete, function(item) {
     var tag = item.graphics[0].shapeName.toLowerCase();
 
-    fns.push(
-      _this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', 120, 60, item.defaultText, item.displayName, true, true, tag)
-    )
+    if(!(item.groupName in fns) && item.groupName !== '') {
+      fns[item.groupName] = [];
+    }
+
+    if(item.groupName === '') {
+      miscs.push(_this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', item.defaultSize.x2/10, item.defaultSize.y2/10, item.defaultText, item.displayName, true, true, tag))
+    }
+
+    // width item.defaultSize.x2
+    //height item.defaultSize.y2
+    fns[item.groupName].push(_this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', item.defaultSize.x2/10, item.defaultSize.y2/10, item.defaultText, item.displayName, true, true, tag))
   });
 
-  this.addPaletteFunctions('topology', 'Склад', (expand != null) ? expand : true, fns);
+  for(var i in  fns) {
+    if(fns.hasOwnProperty(i)) {
+      this.addPaletteFunctions('topology' , i, (expand != null) ? expand : true, fns[i]);
+    }
+  }
+
+  miscs.length && this.addPaletteFunctions('misc', mxResources.get('misc'), (expand != null) ? expand : true, miscs);
+
 };
 
 /**

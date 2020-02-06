@@ -3645,7 +3645,7 @@ EditorUi.prototype.isCompatibleString = function(data)
 /**
  * Adds the label menu items to the given menu and parent.
  */
-EditorUi.prototype.saveFile = function(forceDialog)
+EditorUi.prototype.saveFile = function(forceDialog, callback)
 {
   if (!forceDialog && this.editor.filename != null)
   {
@@ -3655,7 +3655,7 @@ EditorUi.prototype.saveFile = function(forceDialog)
   {
     var dlg = new FilenameDialog(this, this.editor.getOrCreateFilename(), mxResources.get('save'), mxUtils.bind(this, function(name)
     {
-      this.save(name);
+      this.save(name, callback);
     }), null, mxUtils.bind(this, function(name)
     {
       if (name != null && name.length > 0)
@@ -3675,7 +3675,7 @@ EditorUi.prototype.saveFile = function(forceDialog)
 /**
  * Saves the current graph under the given filename.
  */
-EditorUi.prototype.save = function(name)
+EditorUi.prototype.save = function(name, callback)
 {
   if (name != null)
   {
@@ -3704,7 +3704,9 @@ EditorUi.prototype.save = function(name)
         if (xml.length < MAX_REQUEST_SIZE)
         {
           new mxXmlRequest(SAVE_URL, 'filename=' + encodeURIComponent(name) +
-            '&xml=' + encodeURIComponent(xml)).simulate(document, '_blank');
+            '&xml=' + encodeURIComponent(xml)).simulate(document, '_self');
+
+          callback && callback()
         }
         else
         {

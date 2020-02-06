@@ -816,7 +816,7 @@ function Dialog(editorUi, elt, w, h, modal, closable, onClose, noScroll, transpa
   left = pos.x;
   top = pos.y;
 
-  div.style.width = w + 'px';
+  div.style.width = w +10 + 'px';
   div.style.height = h + 'px';
   div.style.left = left + 'px';
   div.style.top = top + 'px';

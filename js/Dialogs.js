@@ -1484,6 +1484,9 @@ ExportDialog.saveLocalFile = function(editorUi, data, filename, format)
   if (data.length < MAX_REQUEST_SIZE)
   {
     editorUi.hideDialog();
+
+    return api('SaveModel', 'POST', {Uuid: filename, xml: data }, 'xml');
+
     var req = new mxXmlRequest(SAVE_URL, 'xml=' + encodeURIComponent(data) + '&filename=' +
       encodeURIComponent(filename) + '&format=' + format);
       //debugger
@@ -1723,7 +1726,15 @@ var EditDataDialog = function(ui, cell)
   });
 
   this.getTopologyProperties = function (id) {
-    return _.where(pallete, {'displayName': id})[0].properties;
+    var props = _.where(pallete, {'displayName': id})[0].properties;
+
+    _.each(props, function(item){
+      if(item.displayName.indexOf(' ') > -1) {
+        item.displayName = item.displayName.replace(/\s/g, '_');
+      }
+    })
+
+    return props;
   };
 
   this.initialSetupProps = function (initialNames) {
