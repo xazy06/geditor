@@ -38,13 +38,89 @@
     var main = new EditorUi(new Editor(urlParams['chrome'] == '0', themes));
     window.m = main;
 
-    var pallete = [];
-    api('GetPalette').then(function (data) {
-      pallete = data;
-    }).catch(function () {
-      pallete = [{
-        "displayName": "Ворота",
-        "className": "Gate",
+
+    window.pallete = [{
+      "displayName": "Ворота",
+      "className": "Gate",
+      "groupName": "Склад",
+      "frame": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 300,
+        "y2": 3000
+      },
+      "graphics": [
+        {
+          "frame": {
+            "x1": 0,
+            "y1": 0,
+            "x2": 300,
+            "y2": 3000
+          },
+          "shapeName": "Rectangle"
+        }
+      ],
+      "defaultSize": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 300,
+        "y2": 3000
+      },
+      "minSize": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 100,
+        "y2": 2000
+      },
+      "maxSize": {
+        "x1": 0,
+        "y1": 0,
+        "x2": 1000,
+        "y2": 6000
+      },
+      "defaultText": "Ворота",
+      "properties": [
+        {
+          "displayName": "Номер ворот",
+          "propName": "Nr",
+          "groupName": "Общее",
+          "propType": "String",
+          "dataSource": {
+            "url": "",
+            "jsMethod": ""
+          },
+          "onChange": {
+            "url": "",
+            "jsMethod": ""
+          }
+        },
+        {
+          "displayName": "Штрихкод",
+          "propName": "Barcode",
+          "groupName": "Общее",
+          "propType": "String",
+          "dataSource": {
+            "url": "",
+            "jsMethod": ""
+          },
+          "onChange": {
+            "url": "",
+            "jsMethod": ""
+          }
+        }
+      ],
+      "onDblClick": {
+        "url": "",
+        "jsMethod": ""
+      },
+      "onChange": {
+        "url": "",
+        "jsMethod": ""
+      }
+    },
+      {
+        "displayName": "Стеллаж",
+        "className": "Rack",
         "groupName": "Склад",
         "frame": {
           "x1": 0,
@@ -57,8 +133,8 @@
             "frame": {
               "x1": 0,
               "y1": 0,
-              "x2": 300,
-              "y2": 3000
+              "x2": 1000,
+              "y2": 2708
             },
             "shapeName": "Rectangle"
           }
@@ -66,25 +142,25 @@
         "defaultSize": {
           "x1": 0,
           "y1": 0,
-          "x2": 300,
-          "y2": 3000
+          "x2": 1000,
+          "y2": 2708
         },
         "minSize": {
           "x1": 0,
           "y1": 0,
-          "x2": 100,
-          "y2": 2000
+          "x2": 1000,
+          "y2": 2708
         },
         "maxSize": {
           "x1": 0,
           "y1": 0,
           "x2": 1000,
-          "y2": 6000
+          "y2": 2708
         },
-        "defaultText": "Ворота",
+        "defaultText": "Стеллаж",
         "properties": [
           {
-            "displayName": "Номер ворот",
+            "displayName": "Номер",
             "propName": "Nr",
             "groupName": "Общее",
             "propType": "String",
@@ -121,167 +197,93 @@
           "jsMethod": ""
         }
       },
-        {
-          "displayName": "Стеллаж",
-          "className": "Rack",
-          "groupName": "Склад",
-          "frame": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 300,
-            "y2": 3000
-          },
-          "graphics": [
-            {
-              "frame": {
-                "x1": 0,
-                "y1": 0,
-                "x2": 1000,
-                "y2": 2708
-              },
-              "shapeName": "Rectangle"
-            }
-          ],
-          "defaultSize": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 1000,
-            "y2": 2708
-          },
-          "minSize": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 1000,
-            "y2": 2708
-          },
-          "maxSize": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 1000,
-            "y2": 2708
-          },
-          "defaultText": "Стеллаж",
-          "properties": [
-            {
-              "displayName": "Номер",
-              "propName": "Nr",
-              "groupName": "Общее",
-              "propType": "String",
-              "dataSource": {
-                "url": "",
-                "jsMethod": ""
-              },
-              "onChange": {
-                "url": "",
-                "jsMethod": ""
-              }
-            },
-            {
-              "displayName": "Штрихкод",
-              "propName": "Barcode",
-              "groupName": "Общее",
-              "propType": "String",
-              "dataSource": {
-                "url": "",
-                "jsMethod": ""
-              },
-              "onChange": {
-                "url": "",
-                "jsMethod": ""
-              }
-            }
-          ],
-          "onDblClick": {
-            "url": "",
-            "jsMethod": ""
-          },
-          "onChange": {
-            "url": "",
-            "jsMethod": ""
-          }
+      {
+        "displayName": "Стеллаж",
+        "className": "Rack",
+        "groupName": "",
+        "frame": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 300,
+          "y2": 3000
         },
-        {
-          "displayName": "Стеллаж",
-          "className": "Rack",
-          "groupName": "",
-          "frame": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 300,
-            "y2": 3000
-          },
-          "graphics": [
-            {
-              "frame": {
-                "x1": 0,
-                "y1": 0,
-                "x2": 1000,
-                "y2": 2708
-              },
-              "shapeName": "Rectangle"
-            }
-          ],
-          "defaultSize": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 1000,
-            "y2": 2708
-          },
-          "minSize": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 1000,
-            "y2": 2708
-          },
-          "maxSize": {
-            "x1": 0,
-            "y1": 0,
-            "x2": 1000,
-            "y2": 2708
-          },
-          "defaultText": "Стеллаж",
-          "properties": [
-            {
-              "displayName": "Номер",
-              "propName": "Nr",
-              "groupName": "Общее",
-              "propType": "String",
-              "dataSource": {
-                "url": "",
-                "jsMethod": ""
-              },
-              "onChange": {
-                "url": "",
-                "jsMethod": ""
-              }
+        "graphics": [
+          {
+            "frame": {
+              "x1": 0,
+              "y1": 0,
+              "x2": 1000,
+              "y2": 2708
             },
-            {
-              "displayName": "Штрихкод",
-              "propName": "Barcode",
-              "groupName": "Общее",
-              "propType": "String",
-              "dataSource": {
-                "url": "",
-                "jsMethod": ""
-              },
-              "onChange": {
-                "url": "",
-                "jsMethod": ""
-              }
-            }
-          ],
-          "onDblClick": {
-            "url": "",
-            "jsMethod": ""
-          },
-          "onChange": {
-            "url": "",
-            "jsMethod": ""
+            "shapeName": "Rectangle"
           }
+        ],
+        "defaultSize": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 1000,
+          "y2": 2708
+        },
+        "minSize": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 1000,
+          "y2": 2708
+        },
+        "maxSize": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 1000,
+          "y2": 2708
+        },
+        "defaultText": "Стеллаж",
+        "properties": [
+          {
+            "displayName": "Номер",
+            "propName": "Nr",
+            "groupName": "Общее",
+            "propType": "String",
+            "dataSource": {
+              "url": "",
+              "jsMethod": ""
+            },
+            "onChange": {
+              "url": "",
+              "jsMethod": ""
+            }
+          },
+          {
+            "displayName": "Штрихкод",
+            "propName": "Barcode",
+            "groupName": "Общее",
+            "propType": "String",
+            "dataSource": {
+              "url": "",
+              "jsMethod": ""
+            },
+            "onChange": {
+              "url": "",
+              "jsMethod": ""
+            }
+          }
+        ],
+        "onDblClick": {
+          "url": "",
+          "jsMethod": ""
+        },
+        "onChange": {
+          "url": "",
+          "jsMethod": ""
         }
-      ];
+      }
+    ];
 
-      m.sidebar.addTopologyPallete(true);
+    m.sidebar.addTopologyPallete(true);
+
+    api('GetPalette').then(function (data) {
+      pallete = data;
+    }).catch(function () {
+
     });
   }, function () {
     document.body.innerHTML = '<div style="margin:10% auto 0;">Error loading resource files. Please check browser console.</div>';
