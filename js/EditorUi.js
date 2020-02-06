@@ -652,6 +652,52 @@ EditorUi = function(editor, container, lightbox)
       insertHandler(cells);
     });
 
+    let mxSettings = {
+      getUnit: function() {
+        return mxSettings.settings.unit || mxConstants.POINTS
+      },
+      setUnit: function(a) {
+        mxSettings.settings.unit = a
+      },
+      isRulerOn: function() {
+        return mxSettings.settings.isRulerOn
+      },
+      setRulerOn: function(a) {
+        mxSettings.settings.isRulerOn = a
+      },
+      init: function() {
+        mxSettings.settings = {
+          language: "",
+          configVersion: Editor.configVersion,
+          customFonts: [],
+          libraries: Sidebar.prototype.defaultEntries,
+          customLibraries: Editor.defaultCustomLibraries,
+          plugins: [],
+          recentColors: [],
+          formatWidth: mxSettings.defaultFormatWidth,
+          createTarget: !1,
+          pageFormat: mxGraph.prototype.pageFormat,
+          search: !0,
+          showStartScreen: !0,
+          gridColor: mxGraphView.prototype.defaultGridColor,
+          darkGridColor: mxGraphView.prototype.defaultDarkGridColor,
+          autosave: !0,
+          resizeImages: null,
+          openCounter: 0,
+          version: mxSettings.currentVersion,
+          isNew: !0,
+          unit: mxConstants.MILLIMETERS,
+          isRulerOn: true
+        }
+      },
+    };
+
+    mxSettings.init();
+
+    this.ruler = !this.canvasSupported || 9 == document.documentMode || "1" != urlParams.ruler && !mxSettings.isRulerOn() || this.editor.isChromelessView() && !this.editor.editable ?
+      null : new mxDualRuler(this, mxSettings.settings.unit);
+    this.refresh();
+
     this.addListener('styleChanged', mxUtils.bind(this, function(sender, evt)
     {
       // Checks if edges and/or vertices were modified
@@ -1106,6 +1152,11 @@ EditorUi.prototype.onKeyDown = function(evt)
     mxEvent.consume(evt);
   }
 };
+
+try {
+  var a = document.createElement("canvas");
+  EditorUi.prototype.canvasSupported = !(!a.getContext || !a.getContext("2d"))
+} catch (v) {}
 
 /**
  * Returns true if the given event should start editing. This implementation returns true.

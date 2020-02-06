@@ -17,19 +17,10 @@ var api = (function(){
       config.body = JSON.stringify(data)
     }
 
+    var response = fetch(_url + url, config).catch(console.log)
 
-    try{
-
-      var response = fetch(_url + url, config)
-
-      return response.then(response => response[dtype]());
-    }catch(e) {
-
-    }
-
+    return response.then(r => r[dtype]());
 
   };
-
-
   return http;
 }());

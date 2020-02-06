@@ -7,7 +7,7 @@
 Menus = function(editorUi)
 {
   this.editorUi = editorUi;
-  this.menus = new Object();
+  this.menus = {};
   this.init();
 
   // Pre-fetches checkmark image
@@ -914,7 +914,7 @@ Menus.prototype.pickColor = function(key, cmd, defaultValue)
     var dlg = new ColorDialog(this.editorUi, defaultValue || '000000', mxUtils.bind(this, function(color)
     {
       graph.cellEditor.restoreSelection(selState);
-      document.execCommand(cmd, false, (color != mxConstants.NONE) ? color : 'transparent');
+      document.execCommand(cmd, false, (color !== mxConstants.NONE) ? color : 'transparent');
     }), function()
     {
       graph.cellEditor.restoreSelection(selState);
@@ -938,7 +938,7 @@ Menus.prototype.pickColor = function(key, cmd, defaultValue)
       color = state.style[key] || color;
     }
 
-    if (color == 'none')
+    if (color === 'none')
     {
       color = 'ffffff';
       this.colorDialog.picker.fromString('ffffff');
