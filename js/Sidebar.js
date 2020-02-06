@@ -401,7 +401,7 @@ Sidebar.prototype.showTooltip = function(elt, cells, w, h, title, showLabel)
         this.tooltip.style.top = top + 'px';
       });
 
-      if (this.tooltip != null && this.tooltip.style.display != 'none')
+      if (this.tooltip != null && this.tooltip.style.display !== 'none')
       {
         show();
       }

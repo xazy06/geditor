@@ -5321,6 +5321,7 @@ DiagramFormatPanel.prototype.init = function()
   {
     this.container.appendChild(this.addOptions(this.createPanel()));
     this.container.appendChild(this.addPaperSize(this.createPanel()));
+    this.container.appendChild(this.addUnitsSet(this.createPanel()))
     this.container.appendChild(this.addStyleOps(this.createPanel()));
   }
 };
@@ -5684,21 +5685,33 @@ DiagramFormatPanel.prototype.addDocumentProperties = function(div)
   return div;
 };
 
+DiagramFormatPanel.prototype.addUnitsSet = function(div) {
+  var ui = this.editorUi;
+  var editor = ui.editor;
+  var graph = editor.graph;
+
+  div.appendChild(this.createTitle(mxResources.get('unitsSelector')));
+
+  var accessor = PageSetupDialog.addUnitsChanger(div, graph.view.unit, function(unit){
+    editor.graph.view.setUnit(unit);
+  });
+
+  return div;
+};
+
 /**
  * Adds the label menu items to the given menu and parent.
  */
-DiagramFormatPanel.prototype.addPaperSize = function(div)
-{
+DiagramFormatPanel.prototype.addPaperSize = function(div) {
   var ui = this.editorUi;
   var editor = ui.editor;
   var graph = editor.graph;
 
   div.appendChild(this.createTitle(mxResources.get('paperSize')));
 
-  var accessor = PageSetupDialog.addPageFormatPanel(div, 'formatpanel', graph.pageFormat, function(pageFormat)
-  {
+  var accessor = PageSetupDialog.addPageFormatPanel(div, 'formatpanel', graph.pageFormat, function(pageFormat) {
     if (graph.pageFormat == null || graph.pageFormat.width != pageFormat.width ||
-      graph.pageFormat.height != pageFormat.height)
+      graph.pageFormat.height !== pageFormat.height)
     {
       var change = new ChangePageSetup(ui, null, null, pageFormat);
       change.ignoreColor = true;

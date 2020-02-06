@@ -325,3 +325,7 @@ writingDirection=Ориент. текста
 zoom=Увеличение
 zoomIn=Увеличить
 zoomOut=Уменьшить
+mm=мм
+cm=см
+m=м
+unitsSelector=Единицы измерения

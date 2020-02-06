@@ -1605,11 +1605,53 @@ var PageSetupDialog = function(editorUi)
   this.container = table;
 };
 
+PageSetupDialog.addUnitsChanger = function(div, unit, unitListener) {
+  var mmLabel = document.createElement('label');
+  var mmCheckBox = document.createElement('input');
+  var ptLabel = document.createElement('label');
+  var ptCheckBox = document.createElement('input');
+
+  mmCheckBox.setAttribute('name', 'units');
+  mmCheckBox.setAttribute('type', 'radio');
+  mmCheckBox.setAttribute('value', 2);
+
+  mmLabel.innerText = 'MM'
+  mmLabel.prepend(mmCheckBox);
+
+  if(unit === 2) {
+    mmCheckBox.setAttribute('checked', 'checked');
+  }
+
+  mmLabel.style.marginRight = '5px';
+
+  ptCheckBox.setAttribute('name', 'units');
+  ptCheckBox.setAttribute('type', 'radio');
+  ptCheckBox.setAttribute('value', 1);
+
+  ptLabel.innerText = 'PT'
+  ptLabel.prepend(ptCheckBox);
+
+  if(unit === 1) {
+    ptCheckBox.setAttribute('checked', 'checked');
+  }
+
+  mxEvent.addListener(mmCheckBox, 'change', update);
+  mxEvent.addListener(ptCheckBox, 'change', update);
+
+  function update(e) {
+    return unitListener(Number(e.target.value))
+  }
+
+  div.appendChild(mmLabel);
+  div.appendChild(ptLabel);
+}
+
 /**
  *
  */
 PageSetupDialog.addPageFormatPanel = function(div, namePostfix, pageFormat, pageFormatListener)
 {
+  debugger
   var formatName = 'format-' + namePostfix;
 
   var portraitCheckBox = document.createElement('input');
