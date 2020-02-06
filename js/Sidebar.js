@@ -991,7 +991,7 @@ Sidebar.prototype.addTopologyPallete = function(expand) {
     }
   }
 
-  miscs.length && this.addPaletteFunctions('misc', mxResources.get('misc'), (expand != null) ? expand : true, miscs);
+  miscs.length && this.addPaletteFunctions('misc', mxResources.get('misc'), false, miscs);
 
 };
 

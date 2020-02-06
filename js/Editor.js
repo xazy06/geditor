@@ -1606,44 +1606,76 @@ var PageSetupDialog = function(editorUi)
 };
 
 PageSetupDialog.addUnitsChanger = function(div, unit, unitListener) {
-  var mmLabel = document.createElement('label');
-  var mmCheckBox = document.createElement('input');
-  var ptLabel = document.createElement('label');
   var ptCheckBox = document.createElement('input');
+  var mmCheckBox = document.createElement('input');
+  var cmCheckBox = document.createElement('input');
+  var mCheckBox = document.createElement('input');
+  var ptLabel = document.createElement('label');
+  var mmLabel = document.createElement('label');
+  var cmLabel = document.createElement('label');
+  var mLabel = document.createElement('label');
+
+  cmCheckBox.setAttribute('name', 'units');
+  cmCheckBox.setAttribute('type', 'radio');
+  cmCheckBox.setAttribute('value', 4);
+  cmCheckBox.setAttribute('disabled', 'disabled');
+
+  mCheckBox.setAttribute('name', 'units');
+  mCheckBox.setAttribute('type', 'radio');
+  mCheckBox.setAttribute('value', 5);
+  mCheckBox.setAttribute('disabled', 'disabled');
 
   mmCheckBox.setAttribute('name', 'units');
   mmCheckBox.setAttribute('type', 'radio');
   mmCheckBox.setAttribute('value', 2);
 
-  mmLabel.innerText = 'MM'
+  ptCheckBox.setAttribute('name', 'units');
+  ptCheckBox.setAttribute('type', 'radio');
+  ptCheckBox.setAttribute('value', 1);
+
+  mmLabel.innerText = 'ММ'
   mmLabel.prepend(mmCheckBox);
+
+  cmLabel.innerText = 'СМ'
+  cmLabel.prepend(cmCheckBox);
+
+  mLabel.innerText = 'М'
+  mLabel.prepend(mCheckBox);
+
+  ptLabel.innerText = 'PT'
+  ptLabel.prepend(ptCheckBox);
+
+  mmLabel.style.marginRight = '5px';
 
   if(unit === 2) {
     mmCheckBox.setAttribute('checked', 'checked');
   }
 
-  mmLabel.style.marginRight = '5px';
-
-  ptCheckBox.setAttribute('name', 'units');
-  ptCheckBox.setAttribute('type', 'radio');
-  ptCheckBox.setAttribute('value', 1);
-
-  ptLabel.innerText = 'PT'
-  ptLabel.prepend(ptCheckBox);
-
   if(unit === 1) {
     ptCheckBox.setAttribute('checked', 'checked');
   }
 
+  if(unit === 4) {
+    cmCheckBox.setAttribute('checked', 'checked');
+  }
+
+  if(unit === 5) {
+    mCheckBox.setAttribute('checked', 'checked');
+  }
+
   mxEvent.addListener(mmCheckBox, 'change', update);
   mxEvent.addListener(ptCheckBox, 'change', update);
+  mxEvent.addListener(cmCheckBox, 'change', update);
+  mxEvent.addListener(mCheckBox, 'change', update);
 
   function update(e) {
     return unitListener(Number(e.target.value))
   }
 
-  div.appendChild(mmLabel);
   div.appendChild(ptLabel);
+  div.appendChild(mmLabel);
+  div.appendChild(cmLabel);
+  div.appendChild(mLabel);
 }
 
 /**
