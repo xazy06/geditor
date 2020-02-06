@@ -161,6 +161,8 @@ api('GetPalette').then(function (data) {
       }
     }
   ];
+
+  m.sidebar.addTopologyPallete(true);
 });
 
 

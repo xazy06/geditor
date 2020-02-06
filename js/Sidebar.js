@@ -82,7 +82,6 @@ Sidebar.prototype.init = function()
   var dir = STENCIL_PATH;
 
   this.addSearchPalette(true);
-  this.addTopologyPallete(true);
   //this.addGeneralPalette(true);
   //this.addMiscPalette(false);
   //this.addAdvancedPalette(false);
