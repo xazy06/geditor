@@ -1683,7 +1683,7 @@ PageSetupDialog.addUnitsChanger = function(div, unit, unitListener) {
  */
 PageSetupDialog.addPageFormatPanel = function(div, namePostfix, pageFormat, pageFormatListener)
 {
-  debugger
+  // debugger
   var formatName = 'format-' + namePostfix;
 
   var portraitCheckBox = document.createElement('input');

@@ -10,6 +10,6 @@ function ModelItem(model) {
   this.Angle = model.Angle;
   this.FrontColor = model.FrontColor;
   this.BgColor = model.BgColor;
-  this.PropValues = model.PropValues || new Dictionary()
+  this.PropValues = model.PropValues || {}
 
 }
