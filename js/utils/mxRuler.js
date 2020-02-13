@@ -122,7 +122,7 @@ function mxRuler(a, c, d, b) {
           A = [5, 3, 5, 3, 7, 3, 5, 3, 7, 3, 5, 3, 7, 3, 5, 3]
     }
     c = D;
-    2 <= a ? c = D / (2 * Math.floor(a / 2)) : .5 >= a && (c = D * Math.floor(1 / a / 2) * (l.unit == mxConstants.SANTIMETERS ? 2 : 1));
+    2 <= a ? c = D / (2 * Math.floor(a / 2)) : .5 >= a && (c = D * Math.floor(1 / a / 2) * (l.unit == mxConstants.MILLIMETERS ? 2 : 1));
     D = null;
     b = g ? Math.min(q + (d ? b.height : b.width), d ? e.height : e.width) : d ? e.height : e.width;
     g && (m.fillStyle = n.outBkgClr,
