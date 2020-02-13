@@ -85,6 +85,8 @@ if (!Date.now)
 mxConstants.POINTS = 1;
 mxConstants.MILLIMETERS = 2;
 mxConstants.INCHES = 3;
+mxConstants.SANTIMETERS = 4;
+mxConstants.METERS = 5;
 /**
  * This ratio is with page scale 1
  */
@@ -7911,6 +7913,10 @@ if (typeof mxVertexHandler != 'undefined')
           return pixels;
         case mxConstants.MILLIMETERS:
           return (pixels / mxConstants.PIXELS_PER_MM).toFixed(1);
+        case mxConstants.SANTIMETERS:
+          return (pixels / mxConstants.PIXELS_PER_MM / 10).toFixed(1);
+        case mxConstants.METERS:
+          return (pixels / mxConstants.PIXELS_PER_MM / 100).toFixed(2);
         case mxConstants.INCHES:
           return (pixels / mxConstants.PIXELS_PER_INCH).toFixed(2);
       }

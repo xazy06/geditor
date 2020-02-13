@@ -1618,7 +1618,7 @@ PageSetupDialog.addUnitsChanger = function(div, unit, unitListener) {
   cmCheckBox.setAttribute('name', 'units');
   cmCheckBox.setAttribute('type', 'radio');
   cmCheckBox.setAttribute('value', 4);
-  cmCheckBox.setAttribute('disabled', 'disabled');
+  // cmCheckBox.setAttribute('disabled', 'disabled');
 
   mCheckBox.setAttribute('name', 'units');
   mCheckBox.setAttribute('type', 'radio');
@@ -1647,12 +1647,12 @@ PageSetupDialog.addUnitsChanger = function(div, unit, unitListener) {
 
   mmLabel.style.marginRight = '5px';
 
-  if(unit === 2) {
-    mmCheckBox.setAttribute('checked', 'checked');
-  }
-
   if(unit === 1) {
     ptCheckBox.setAttribute('checked', 'checked');
+  }
+
+  if(unit === 2) {
+    mmCheckBox.setAttribute('checked', 'checked');
   }
 
   if(unit === 4) {

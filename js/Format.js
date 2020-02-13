@@ -1922,6 +1922,10 @@ BaseFormatPanel.prototype.getUnit = function()
       return '"';
     case mxConstants.MILLIMETERS:
       return 'mm';
+    case mxConstants.SANTIMETERS:
+      return 'cm';
+    case mxConstants.METERS:
+      return 'm';
   }
 };
 
@@ -1942,6 +1946,10 @@ BaseFormatPanel.prototype.fromUnit = function(value)
       return value * mxConstants.PIXELS_PER_INCH;
     case mxConstants.MILLIMETERS:
       return value * mxConstants.PIXELS_PER_MM;
+    case mxConstants.SANTIMETERS:
+      return value * mxConstants.PIXELS_PER_MM * 10;
+    case mxConstants.METERS:
+      return value * mxConstants.PIXELS_PER_MM * 100;
   }
 };
 
@@ -1962,6 +1970,10 @@ BaseFormatPanel.prototype.getUnitStep = function()
       return 0.1;
     case mxConstants.MILLIMETERS:
       return 0.5;
+    case mxConstants.SANTIMETERS:
+      return 0.5 * 10; // TODO
+    case mxConstants.METERS:
+      return 0.5 * 100; // TODO
   }
 };
 

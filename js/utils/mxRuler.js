@@ -106,13 +106,23 @@ function mxRuler(a, c, d, b) {
         D = mxConstants.PIXELS_PER_MM;
         A = [5, 3, 3, 3, 3, 6, 3, 3, 3, 3];
         break;
+      case mxConstants.SANTIMETERS: //TODO
+        E = 1;
+        D = mxConstants.PIXELS_PER_MM * 10;
+        A = [5, 3, 3, 3, 3, 6, 3, 3, 3, 3];
+        break;
+      case mxConstants.METERS: //TODO
+        E = 0.1;
+        D = mxConstants.PIXELS_PER_MM * 100;
+        A = [5, 3, 3, 3, 3, 6, 3, 3, 3, 3];
+        break;
       case mxConstants.INCHES:
         E = .5 >= a || 4 <= a ? 8 : 16,
           D = mxConstants.PIXELS_PER_INCH / E,
           A = [5, 3, 5, 3, 7, 3, 5, 3, 7, 3, 5, 3, 7, 3, 5, 3]
     }
     c = D;
-    2 <= a ? c = D / (2 * Math.floor(a / 2)) : .5 >= a && (c = D * Math.floor(1 / a / 2) * (l.unit == mxConstants.MILLIMETERS ? 2 : 1));
+    2 <= a ? c = D / (2 * Math.floor(a / 2)) : .5 >= a && (c = D * Math.floor(1 / a / 2) * (l.unit == mxConstants.SANTIMETERS ? 2 : 1));
     D = null;
     b = g ? Math.min(q + (d ? b.height : b.width), d ? e.height : e.width) : d ? e.height : e.width;
     g && (m.fillStyle = n.outBkgClr,
@@ -257,6 +267,10 @@ mxRuler.prototype.formatText = function (a) {
       return Math.round(a);
     case mxConstants.MILLIMETERS:
       return (a / mxConstants.PIXELS_PER_MM).toFixed(1);
+    case mxConstants.SANTIMETERS:
+      return (a / mxConstants.PIXELS_PER_MM / 10).toFixed(2);
+    case mxConstants.METERS:
+      return (a / mxConstants.PIXELS_PER_MM / 100).toFixed(2);
     case mxConstants.INCHES:
       return (a / mxConstants.PIXELS_PER_INCH).toFixed(2)
   }
