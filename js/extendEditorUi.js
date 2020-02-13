@@ -39,6 +39,9 @@
 
     window.m = main;
 
+    window.topology = new Topology();
+
+    window.topology.edotor = window.m;
 
   }, function () {
     document.body.innerHTML = '<div style="margin:10% auto 0;">Error loading resource files. Please check browser console.</div>';

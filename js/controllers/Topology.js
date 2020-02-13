@@ -14,8 +14,12 @@
  *
  */
 var Topology = function () {
-  
-  var self = this;
+
+  var _this = this;
+
+  var x2js = new X2JS();
+
+  this.editor = null;
 
   /**
    * @type {String}
@@ -60,6 +64,11 @@ var Topology = function () {
   this.SaveModelScript = null;
 
   this.actions = {
+    getGraphXml: function () {
+      var xml = _this.editor.editor.getXML();
+      console.log(x2js.xml2json(xml));
+    },
+
     /**
      * @param {String} uuid
      * @returns undefined
@@ -102,4 +111,5 @@ var Topology = function () {
     }
   }
 
-};
+}, topology;
+
