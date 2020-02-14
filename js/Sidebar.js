@@ -977,11 +977,11 @@ Sidebar.prototype.addTopologyPallete = function(expand) {
     }
 
     if(item.groupName === '') {
-      miscs.push(_this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', item.defaultSize.x2/10, item.defaultSize.y2/10, item.defaultText, item.displayName, true, true, tag))
+      miscs.push(_this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', item.defaultSize.x2/10, item.defaultSize.y2/10, item.defaultText, item.displayName, true, true, tag, item.className))
     }else{
       // width item.defaultSize.x2
       //height item.defaultSize.y2
-      fns[item.groupName].push(_this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', item.defaultSize.x2/10, item.defaultSize.y2/10, item.defaultText, item.displayName, true, true, tag))
+      fns[item.groupName].push(_this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', item.defaultSize.x2/10, item.defaultSize.y2/10, item.defaultText, item.displayName, true, true, tag, item.className))
     }
   });
 
@@ -3318,22 +3318,22 @@ Sidebar.prototype.addClickHandler = function(elt, ds, cells)
 /**
  * Creates a drop handler for inserting the given cells.
  */
-Sidebar.prototype.createVertexTemplateEntry = function(style, width, height, value, title, showLabel, showTitle, tags)
+Sidebar.prototype.createVertexTemplateEntry = function(style, width, height, value, title, showLabel, showTitle, tags, className)
 {
   tags = (tags != null && tags.length > 0) ? tags : title.toLowerCase();
 
   return this.addEntry(tags, mxUtils.bind(this, function()
   {
-    return this.createVertexTemplate(style, width, height, value, title, showLabel, showTitle);
+    return this.createVertexTemplate(style, width, height, value, title, showLabel, showTitle, undefined, className);
   }));
 }
 
 /**
  * Creates a drop handler for inserting the given cells.
  */
-Sidebar.prototype.createVertexTemplate = function(style, width, height, value, title, showLabel, showTitle, allowCellsInserted)
+Sidebar.prototype.createVertexTemplate = function(style, width, height, value, title, showLabel, showTitle, allowCellsInserted, className)
 {
-  var cells = [new mxCell((value != null) ? value : '', new mxGeometry(0, 0, width, height), style)];
+  var cells = [new mxCell((value != null) ? value : '', new mxGeometry(0, 0, width, height), style, className)];
   cells[0].vertex = true;
 
   return this.createVertexTemplateFromCells(cells, width, height, title, showLabel, showTitle, allowCellsInserted);

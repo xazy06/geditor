@@ -42238,19 +42238,24 @@ mxCellAttributeChange.prototype.execute = function()
  * value - Optional object that represents the cell value.
  * geometry - Optional <mxGeometry> that specifies the geometry.
  * style - Optional formatted string that defines the style.
+ * className - Optional String class of topology pallete vertex
  */
-function mxCell(value, geometry, style)
+function mxCell(value, geometry, style, className)
 {
 	this.value = value;
   this._id = this._id === null && value || this._id;
 	this.setGeometry(geometry);
 	this.setStyle(style);
 
+	if(className !== undefined) {
+	  this.setClassName(className);
+  }
+
 	if (this.onInit != null)
 	{
 		this.onInit();
 	}
-};
+}
 
 /**
  * Variable: id
@@ -42265,6 +42270,14 @@ mxCell.prototype.id = null;
  * Holds the _Id. Default is null.
  */
 mxCell.prototype._id = null;
+
+/**
+ * Variable: className
+ *
+ * Holds the user object. Default is null.
+ */
+mxCell.prototype.className = null;
+
 
 /**
  * Variable: value
@@ -42378,6 +42391,26 @@ mxCell.prototype.mxTransient = ['id', 'value', 'parent', 'source',
 mxCell.prototype._getId = function()
 {
   return this._id;
+};
+
+/**
+ * Function: getClassName
+ *
+ * Returns the className of the cell as a string.
+ */
+mxCell.prototype.getClassName = function()
+{
+  return this.className;
+};
+
+/**
+ * Function: setClassName
+ *
+ * Returns the className of the cell as a string.
+ */
+mxCell.prototype.setClassName = function(className)
+{
+  return this.className = className;
 };
 
 /**

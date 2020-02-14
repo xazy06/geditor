@@ -13,7 +13,7 @@
         this.actions.get('open').setEnabled(enabled || Graph.fileSupport);
         this.actions.get('import').setEnabled(enabled || Graph.fileSupport);
         this.actions.get('save').setEnabled(enabled);
-        this.actions.get('saveAs').setEnabled(enabled);
+        this.actions.get('saveAs').setEnabled(false);
         this.actions.get('export').setEnabled(enabled);
       }));
     }
@@ -41,7 +41,7 @@
 
     window.topology = new Topology();
 
-    window.topology.edotor = window.m;
+    window.topology.editor = main;
 
   }, function () {
     document.body.innerHTML = '<div style="margin:10% auto 0;">Error loading resource files. Please check browser console.</div>';

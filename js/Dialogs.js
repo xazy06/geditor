@@ -1485,6 +1485,7 @@ ExportDialog.saveLocalFile = function(editorUi, data, filename, format)
   {
     editorUi.hideDialog();
 
+    return topology.actions.Save();
     //return api('SaveModel', 'POST', {Uuid: filename, xml: data }, 'xml');
 
     var req = new mxXmlRequest(SAVE_URL, 'xml=' + encodeURIComponent(data) + '&filename=' +

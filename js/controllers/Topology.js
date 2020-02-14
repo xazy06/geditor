@@ -1,25 +1,32 @@
 /**
- * Процесс редактирования
- В коде приложения задать свойства редактора:
- Базовый URL;
- Относительный URL для загрузки палитры объектов;
- Относительный URL для загрузки чертежа;
- Относительный URL для сохранения;
- Вызвать метод Редактировать чертёж или Создать новый чертёж;
- В процессе редактирования редактор должен:
- Контролировать изменение свойств объекта, для которых установлен валидатор. В случае изменения свойства должен быть вызван соответствующий валидатор;
- Контролировать пересечение объектов, если для объектов установлены ограничения по пересечениям;
- Контролировать размеры объекта, если для объекта установлены ограничения по размерам;
- Если в процессе работы компонент не может выполнить какое-нибудь действие из-за отсутствия необходимых настроек, например BaseUrl, компонент должен явно выводить сообщение об ошибке;
  *
+ * @param mx
+ * @constructor
+ * Процесс редактирования
+   В коде приложения задать свойства редактора:
+   Базовый URL;
+   Относительный URL для загрузки палитры объектов;
+   Относительный URL для загрузки чертежа;
+   Относительный URL для сохранения;
+   Вызвать метод Редактировать чертёж или Создать новый чертёж;
+   В процессе редактирования редактор должен:
+   Контролировать изменение свойств объекта, для которых установлен валидатор. В случае изменения свойства должен быть вызван соответствующий валидатор;
+   Контролировать пересечение объектов, если для объектов установлены ограничения по пересечениям;
+   Контролировать размеры объекта, если для объекта установлены ограничения по размерам;
+   Если в процессе работы компонент не может выполнить какое-нибудь действие из-за отсутствия необходимых настроек, например BaseUrl, компонент должен явно выводить сообщение об ошибке;
  */
-var Topology = function () {
-
+var Topology = function (mx) {
   var _this = this;
 
-  var x2js = new X2JS();
+  /**
+   * * @type {X2JS}
+   */
+  this.x2js = new X2JS();
 
-  this.editor = null;
+  /**
+   * @type {null}
+   */
+  this.editor = mx || null;
 
   /**
    * @type {String}
@@ -62,11 +69,140 @@ var Topology = function () {
    * Назначение: Имя скрипта для сохранения чертежа;
    */
   this.SaveModelScript = null;
-
+  /**
+   *
+   * @type {{New: Topology.actions.New, Load: Topology.actions.Load, getGraphJSON: (function(): *), getGraphXml: (function(): (*|string)), Save: Topology.actions.Save}}
+   */
   this.actions = {
+    /**
+     *
+     * @returns {*|string}
+     */
     getGraphXml: function () {
-      var xml = _this.editor.editor.getXML();
-      console.log(x2js.xml2json(xml));
+      return mxUtils.getXml(_this.editor.editor.getGraphXml());
+    },
+
+    /**
+     *
+     * @returns {*}
+     */
+    getGraphJSON: function () {
+      return _this.x2js.xml_str2json(this.getGraphXml());
+    },
+
+    parseGraph: function () {
+      var model = null, gModel = null;
+
+      model = new Model();
+      gModel = this.getGraphJSON();
+
+      function parseCellStyle (style) {
+        var stylesMap = null;
+
+        style = style.split(';').pop();
+
+        stylesMap = {};
+
+        _.each(style, function(property){
+          property = property.split('=');
+          stylesMap[property[0]] = property[1]
+        });
+
+        return stylesMap;
+      }
+
+      /**
+       * @private
+       * @returns {*}
+       */
+      function parseHistory () {
+        var history = new ModelHistory();
+
+        history.Center = new Point(
+          //_this.editor.editor.graph.getGraphBounds().getCenterX(),
+          _this.editor.graph.view.translate.x,
+          //_this.editor.editor.graph.getGraphBounds().getCenterY()
+          _this.editor.graph.view.translate.y
+        );
+
+        history.Scale = 1 / mxConstants.PIXELS_PER_MM;
+        history.Unit = [null, 'pt', 'mm', 'inch', 'sm', 'm'][_this.editor.editor.graph.view.unit];
+        history.ShowGrid = _this.editor.editor.graph.gridEnabled;
+        history.GridScale = _this.editor.editor.graph.gridSize/_this.editor.editor.graph.view.gridSteps;
+        history.SnapToGrid = _this.editor.editor.graph.gridEnabled;
+        history.SnapToNearest = true;
+        history.SnapStrength = 1;
+
+        return history;
+      }
+
+      /**
+       * @private
+       * @param source
+       * @returns {*}
+       */
+      function mapItems(source) {
+        var mappedItems = null, layersRejected;
+
+        layersRejected = _.reject(_this.editor.editor.graph.model.cells, function (cell) {
+          return _this.editor.editor.graph.model.isLayer(cell) || _this.editor.editor.graph.model.isRoot(cell);
+        });
+
+        mappedItems = _.map(layersRejected, function (cell) {
+          var item = new ModelItem(), cellStyles;
+
+          cellStyles = parseCellStyle(cell.style)
+
+          item.Uuid = cell.id;
+          item.ClassName = cell.className;
+
+          item.Font = new Font({
+            Color: cellStyles.fontColor,
+            FontName: cellStyles.fontFamily,
+            // Weight: cellStyles.fontStyle * 100 || 400,
+            Weight: cellStyles.fontSize,
+            Bold: cellStyles.fontStyle === '7',
+            Italic: false,
+            Underline: false
+          });
+
+          item.Text = _.isObject(cell.value) && cell.getAttribute('label') || cell.value;
+          item.Layer = cell.getParent().getId();
+          item.Frame = new Frame(
+            cell.geometry.x,
+            cell.geometry.x + cell.geometry.width,
+            cell.geometry.y,
+            cell.geometry.y + cell.geometry.height
+          );
+          item.Angle = cellStyles.rotation || 0;
+          item.FrontColor = cellStyles.strokeColor;
+          item.BgColor = cellStyles.fillColor;
+
+          item.PropValues = [];
+
+          if(cell.value.attributes) {
+            item.PropValues = _.toArray(cell.value.attributes);
+            item.PropValues.shift();
+            item.PropValues = _.map(item.PropValues, function(attr){
+              var _attributeMap = {};
+              _attributeMap[attr.name] = attr.value;
+
+              return _attributeMap;
+            });
+          }
+
+          return item;
+        });
+
+
+        return mappedItems;
+      }
+
+      model.BgColor = _this.editor.editor.graph.background || '#fff';
+      model.History = parseHistory();
+      model.Items = mapItems(gModel);
+
+      return model;
     },
 
     /**
@@ -107,6 +243,13 @@ var Topology = function () {
      *
      */
     Save: function () {
+      var data;
+
+      data = {
+        Model: _this.actions.parseGraph()
+      };
+
+      api('/save', 'POST', data);
 
     }
   }
