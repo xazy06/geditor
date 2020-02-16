@@ -234,10 +234,8 @@ var Topology = function (mx) {
           'object': {
             _label: cell._value,
             _id: cell._id
-
           }
         };
-
 
         delete cell._id;
         delete cell._value;
@@ -311,6 +309,14 @@ var Topology = function (mx) {
 
           if(item.PropValues) {
             cell = addAttributes2Cell(item.PropValues, cell);
+
+            if (!mxModel.mxGraphModel.root.object) {
+              mxModel.mxGraphModel.root.object = [];
+            }
+
+            mxModel.mxGraphModel.root.object.push(cell.object);
+
+            return
           }
 
           target.push(cell);

@@ -61,8 +61,8 @@ Actions.prototype.init = function()
 
     ui.openFile();
   });
-  this.addAction('import...', function()
-  {
+  this.addAction('import...', function() {
+    debugger
     window.openNew = false;
     window.openKey = 'import';
 
@@ -72,11 +72,19 @@ Actions.prototype.init = function()
       ui.hideDialog();
     }));
 
-    window.openFile.setConsumer(mxUtils.bind(this, function(xml, filename)
-    {
+    window.openFile.setConsumer(mxUtils.bind(this, function(xml, filename) {
+      debugger
       try
       {
-        var doc = mxUtils.parseXml(xml);
+        var doc;
+
+        if(filename.indexOf('.json') > -1) {
+          doc = JSON.parse(xml);
+          doc = topology.actions.parseTopologyModel2XML(doc);
+        }else{
+          doc = mxUtils.parseXml(xml);
+        }
+
         editor.graph.setSelectionCells(editor.graph.importGraphModel(doc.documentElement));
       }
       catch (e)
