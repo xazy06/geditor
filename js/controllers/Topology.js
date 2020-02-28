@@ -200,6 +200,7 @@ var Topology = function (mx) {
         this._y = TFrame.Y1;
         this._width = TFrame.X2 - TFrame.X1;
         this._height = TFrame.Y2 - TFrame.Y1;
+        this._as = 'geometry';
       }
 
       function parseTStyles(TModel) {
@@ -209,7 +210,7 @@ var Topology = function (mx) {
           fillColor: TModel.BgColor,
           fontColor: TModel.Font.Color,
           fontFamily: TModel.Font.FontName,
-          fontSize: TModel.Font.Weight,
+          // fontSize: TModel.Font.Weight,
           fontStyle: TModel.Font.Bold && '7' || '4',
           whiteSpace: 'wrap',
           html: '1',
@@ -408,8 +409,8 @@ var Topology = function (mx) {
           item.Font = new Font({
             Color: cellStyles.fontColor,
             FontName: cellStyles.fontFamily,
-            // Weight: cellStyles.fontStyle * 100 || 400,
-            Weight: cellStyles.fontSize,
+            Weight: cellStyles.fontStyle * 100 || 400,
+            // Weight: cellStyles.fontSize,
             Bold: cellStyles.fontStyle === '7',
             Italic: false,
             Underline: false
@@ -492,10 +493,12 @@ var Topology = function (mx) {
      *
      */
     Save: function () {
-      var data;
+      var data, pGraph;
+
+      pGraph = _this.actions.parseGraph();
 
       data = {
-        Model: _this.actions.parseGraph()
+        Model: pGraph
       };
 
       api('/save', 'POST', data);

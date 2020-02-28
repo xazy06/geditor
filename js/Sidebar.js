@@ -977,7 +977,7 @@ Sidebar.prototype.addTopologyPallete = function(expand) {
     }
 
     if(item.groupName === '') {
-      miscs.push(_this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', item.defaultSize.x2/10, item.defaultSize.y2/10, item.defaultText, item.displayName, true, true, tag, item.className))
+      miscs.push(_this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', item.defaultSize.x2, item.defaultSize.y2, item.defaultText, item.displayName, true, true, tag, item.className))
     }else{
       // width item.defaultSize.x2
       //height item.defaultSize.y2

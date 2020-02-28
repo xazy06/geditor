@@ -1034,6 +1034,12 @@ Menus.prototype.createPopupMenu = function(menu, cell, evt)
   var graph = this.editorUi.editor.graph;
   menu.smartSeparators = true;
 
+  if (graph.getSelectionCount() == 1) {
+    this.addMenuItems(menu, ['editData', 'editLink'], null, evt);
+
+    menu.addSeparator();
+  }
+
   if (graph.isSelectionEmpty())
   {
     this.addMenuItems(menu, ['undo', 'redo', 'pasteHere'], null, evt);
@@ -1109,7 +1115,7 @@ Menus.prototype.createPopupMenu = function(menu, cell, evt)
       if (graph.getSelectionCount() == 1)
       {
         menu.addSeparator();
-        this.addMenuItems(menu, ['editData', 'editLink'], null, evt);
+        // this.addMenuItems(menu, ['editData', 'editLink'], null, evt);
 
         // Shows edit image action if there is an image in the style
         if (graph.getModel().isVertex(cell) && mxUtils.getValue(state.style, mxConstants.STYLE_IMAGE, null) != null)

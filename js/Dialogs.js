@@ -977,10 +977,12 @@ var ExportDialog = function(editorUi)
   var imageFormatSelect = document.createElement('select');
   imageFormatSelect.style.width = '180px';
 
-  var pngOption = document.createElement('option');
-  pngOption.setAttribute('value', 'png');
-  mxUtils.write(pngOption, mxResources.get('formatPng'));
-  imageFormatSelect.appendChild(pngOption);
+  if (ExportDialog.showPNGOption) {
+    var pngOption = document.createElement('option');
+    pngOption.setAttribute('value', 'png');
+    mxUtils.write(pngOption, mxResources.get('formatPng'));
+    imageFormatSelect.appendChild(pngOption);
+  }
 
   var gifOption = document.createElement('option');
 
@@ -992,19 +994,28 @@ var ExportDialog = function(editorUi)
   }
 
   var jpgOption = document.createElement('option');
-  jpgOption.setAttribute('value', 'jpg');
-  mxUtils.write(jpgOption, mxResources.get('formatJpg'));
-  imageFormatSelect.appendChild(jpgOption);
+
+  if (ExportDialog.showJpegOption) {
+    jpgOption.setAttribute('value', 'jpg');
+    mxUtils.write(jpgOption, mxResources.get('formatJpg'));
+    imageFormatSelect.appendChild(jpgOption);
+  }
 
   var pdfOption = document.createElement('option');
-  pdfOption.setAttribute('value', 'pdf');
-  mxUtils.write(pdfOption, mxResources.get('formatPdf'));
-  imageFormatSelect.appendChild(pdfOption);
+
+  if (ExportDialog.showPdfOption) {
+    pdfOption.setAttribute('value', 'pdf');
+    mxUtils.write(pdfOption, mxResources.get('formatPdf'));
+    imageFormatSelect.appendChild(pdfOption);
+  }
 
   var svgOption = document.createElement('option');
-  svgOption.setAttribute('value', 'svg');
-  mxUtils.write(svgOption, mxResources.get('formatSvg'));
-  imageFormatSelect.appendChild(svgOption);
+
+  if (ExportDialog.showSvgOption) {
+    svgOption.setAttribute('value', 'svg');
+    mxUtils.write(svgOption, mxResources.get('formatSvg'));
+    imageFormatSelect.appendChild(svgOption);
+  }
 
   if (ExportDialog.showXmlOption)
   {
@@ -1012,6 +1023,14 @@ var ExportDialog = function(editorUi)
     xmlOption.setAttribute('value', 'xml');
     mxUtils.write(xmlOption, mxResources.get('formatXml'));
     imageFormatSelect.appendChild(xmlOption);
+  }
+
+  if (ExportDialog.showJsonOption)
+  {
+    var jsonOption = document.createElement('option');
+    jsonOption.setAttribute('value', 'json');
+    mxUtils.write(jsonOption, mxResources.get('formatJson'));
+    imageFormatSelect.appendChild(jsonOption);
   }
 
   td = document.createElement('td');
@@ -1407,12 +1426,43 @@ ExportDialog.lastBorderValue = 0;
 /**
  * Global switches for the export dialog.
  */
-ExportDialog.showGifOption = true;
+ExportDialog.showGifOption = false;
+
+/**
+ * Global switches for the export dialog.
+ */
+ExportDialog.showJpegOption = false;
+
+/**
+ * Global switches for the export dialog.
+ */
+ExportDialog.showSvgOption = false;
+
+/**
+ * Global switches for the export dialog.
+ */
+ExportDialog.showPdfOption = false;
+
+/**
+ * Global switches for the export dialog.
+ */
+ExportDialog.showSvgOption = false;
+
+/**
+ * Global switches for the export dialog.
+ */
+ExportDialog.showPNGOption = false;
 
 /**
  * Global switches for the export dialog.
  */
 ExportDialog.showXmlOption = true;
+
+
+/**
+ * Global switches for the export dialog.
+ */
+ExportDialog.showJsonOption = true;
 
 /**
  * Hook for getting the export format. Returns null for the default
@@ -1425,6 +1475,10 @@ ExportDialog.exportFile = function(editorUi, name, format, bg, s, b, dpi)
   var graph = editorUi.editor.graph;
 
   if (format == 'xml')
+  {
+    ExportDialog.saveLocalFile(editorUi, mxUtils.getXml(editorUi.editor.getGraphXml()), name, format);
+  }
+  else if (format == 'json')
   {
     ExportDialog.saveLocalFile(editorUi, mxUtils.getXml(editorUi.editor.getGraphXml()), name, format);
   }
@@ -1479,16 +1533,18 @@ ExportDialog.exportFile = function(editorUi, name, format, bg, s, b, dpi)
  * parameter and value to be used in the request in the form
  * key=value, where value should be URL encoded.
  */
-ExportDialog.saveLocalFile = function(editorUi, data, filename, format)
-{
+ExportDialog.saveLocalFile = function(editorUi, data, filename, format) {
+  var req;
+
   if (data.length < MAX_REQUEST_SIZE)
   {
     editorUi.hideDialog();
 
-    return topology.actions.Save();
-    //return api('SaveModel', 'POST', {Uuid: filename, xml: data }, 'xml');
+    if(format === 'json') {
+      return topology.actions.Save();
+    }
 
-    var req = new mxXmlRequest(SAVE_URL, 'xml=' + encodeURIComponent(data) + '&filename=' +
+    req = new mxXmlRequest(SAVE_URL, 'xml=' + encodeURIComponent(data) + '&filename=' +
       encodeURIComponent(filename) + '&format=' + format);
       //debugger
       //req.simulate(document, '_blank');
