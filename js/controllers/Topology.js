@@ -467,7 +467,8 @@ var Topology = function (mx) {
      *
      */
     Load: function (uuid) {
-
+      // Base implementation TODO implement full api support
+      return api('/load', 'POST', {Uuid: uuid});
     },
 
     /**
@@ -481,7 +482,8 @@ var Topology = function (mx) {
      *
      */
     New: function (uuid) {
-
+      // Base implementation TODO implement full api support
+      return api('/new', 'POST', {Uuid: uuid});
     },
 
     /**
