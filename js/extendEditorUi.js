@@ -41,6 +41,9 @@
 
     window.topology = new Topology();
 
+    window['New'] = topology.actions.New;
+    window['Load'] = topology.actions.Load;
+
     window.topology.editor = main;
 
   }, function () {
