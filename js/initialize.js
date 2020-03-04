@@ -1,5 +1,5 @@
 var api = (function(){
-  var _url = 'http://localhost:5000/api/';
+  var _url = window.location.protocol + '/' + window.location.hostname + ':5000/api/';
 
   var http = function http(url, type, data, dtype) {
     var config = {
