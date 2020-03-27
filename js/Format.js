@@ -1947,9 +1947,9 @@ BaseFormatPanel.prototype.fromUnit = function(value)
     case mxConstants.MILLIMETERS:
       return value * mxConstants.PIXELS_PER_MM;
     case mxConstants.SANTIMETERS:
-      return value * mxConstants.PIXELS_PER_MM * 10;
+      return value * mxConstants.PIXELS_PER_SM;
     case mxConstants.METERS:
-      return value * mxConstants.PIXELS_PER_MM * 100;
+      return value * mxConstants.PIXELS_PER_M;
   }
 };
 
@@ -1971,9 +1971,9 @@ BaseFormatPanel.prototype.getUnitStep = function()
     case mxConstants.MILLIMETERS:
       return 0.5;
     case mxConstants.SANTIMETERS:
-      return 0.5 * 10; // TODO
+      return 0.05;
     case mxConstants.METERS:
-      return 0.5 * 100; // TODO
+      return 0.005;
   }
 };
 

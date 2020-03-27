@@ -91,7 +91,9 @@ mxConstants.METERS = 5;
  * This ratio is with page scale 1
  */
 mxConstants.PIXELS_PER_MM = 3.937;
+mxConstants.PIXELS_PER_SM = 39.37;
 mxConstants.PIXELS_PER_INCH = 100;
+mxConstants.PIXELS_PER_M = 393.7;
 
 mxConstants.SHADOW_OPACITY = 0.25;
 mxConstants.SHADOWCOLOR = '#000000';
@@ -131,11 +133,11 @@ mxGraphView.prototype.gridSteps = 4;
 mxGraphView.prototype.minGridSize = 4;
 
 // UrlParams is null in embed mode
-mxGraphView.prototype.defaultGridColor = '#e0e0e0';
+mxGraphView.prototype.defaultGridColor = '#99004D';
 mxGraphView.prototype.gridColor = mxGraphView.prototype.defaultGridColor;
 
 //Units
-mxGraphView.prototype.unit = mxConstants.MILLIMETERS;
+mxGraphView.prototype.unit = mxConstants.POINTS;
 
 mxGraphView.prototype.setUnit = function(unit)
 {
@@ -1173,7 +1175,7 @@ Graph.prototype.defaultScrollbars = !mxClient.IS_IOS;
 /**
  * Specifies if the page should be visible for new files. Default is true.
  */
-Graph.prototype.defaultPageVisible = true;
+Graph.prototype.defaultPageVisible = false;
 
 /**
  * Specifies if the app should run in chromeless mode. Default is false.
@@ -3431,6 +3433,12 @@ HoverIcons.prototype.init = function()
       mouseMove: mxUtils.bind(this, function(sender, me)
       {
         var evt = me.getEvent();
+
+        document.getElementById('mouse-bar').innerHTML =
+          (
+            '<strong>Положение указателя мыши</strong><br/>x: ' +  me.getGraphX()+ ' px, ' + 'y: ' +  me.getGraphY() + ' px <br/>' +
+            'x: ' + parseFloat(me.getGraphX()/3.937).toFixed(1) + ' mm, ' + 'y: ' +  parseFloat(me.getGraphY()/3.937).toFixed(1) + ' mm'
+          );
 
         if (this.isResetEvent(evt))
         {
@@ -7914,9 +7922,9 @@ if (typeof mxVertexHandler != 'undefined')
         case mxConstants.MILLIMETERS:
           return (pixels / mxConstants.PIXELS_PER_MM).toFixed(1);
         case mxConstants.SANTIMETERS:
-          return (pixels / mxConstants.PIXELS_PER_MM / 10).toFixed(1);
+          return (pixels / mxConstants.PIXELS_PER_SM).toFixed(1);
         case mxConstants.METERS:
-          return (pixels / mxConstants.PIXELS_PER_MM / 100).toFixed(2);
+          return (pixels / mxConstants.PIXELS_PER_M).toFixed(2);
         case mxConstants.INCHES:
           return (pixels / mxConstants.PIXELS_PER_INCH).toFixed(2);
       }
@@ -8686,6 +8694,7 @@ if (typeof mxVertexHandler != 'undefined')
     // Workaround for "isConsumed not defined" in MS Edge is to use arguments
     mxVertexHandler.prototype.mouseMove = function(sender, me)
     {
+      console.log();
       vertexHandlerMouseMove.apply(this, arguments);
 
       if (this.graph.graphHandler.first != null)

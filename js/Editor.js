@@ -1623,7 +1623,7 @@ PageSetupDialog.addUnitsChanger = function(div, unit, unitListener) {
   mCheckBox.setAttribute('name', 'units');
   mCheckBox.setAttribute('type', 'radio');
   mCheckBox.setAttribute('value', 5);
-  mCheckBox.setAttribute('disabled', 'disabled');
+  // mCheckBox.setAttribute('disabled', 'disabled');
 
   mmCheckBox.setAttribute('name', 'units');
   mmCheckBox.setAttribute('type', 'radio');
@@ -1676,6 +1676,11 @@ PageSetupDialog.addUnitsChanger = function(div, unit, unitListener) {
   div.appendChild(mmLabel);
   div.appendChild(cmLabel);
   div.appendChild(mLabel);
+
+  var informer = document.createElement('div');
+  informer.setAttribute('id', 'mouse-bar')
+
+  div.appendChild(informer)
 }
 
 /**

@@ -1,3 +1,5 @@
+// window.uiTheme = 'dark';
+
 function mxRuler(a, c, d, b) {
   function g() {
     var b = a.diagramContainer;
@@ -6,20 +8,22 @@ function mxRuler(a, c, d, b) {
     q.style.width = (d ? 0 : b.offsetWidth) + k + "px";
     q.style.height = (d ? b.offsetHeight : 0) + k + "px"
   }
+
   function f(a, b, c) {
     var d;
-    return function() {
+    return function () {
       var e = this
         , f = arguments
         , g = c && !d;
       clearTimeout(d);
-      d = setTimeout(function() {
+      d = setTimeout(function () {
         d = null;
         c || a.apply(e, f)
       }, b);
       g && a.apply(e, f)
     }
   }
+
   var k = this.RULER_THICKNESS
     , l = this;
   this.unit = c;
@@ -27,8 +31,8 @@ function mxRuler(a, c, d, b) {
     bkgClr: "#ffffff",
     outBkgClr: "#e8e9ed",
     cornerClr: "#fbfbfb",
-    strokeClr: "#dadce0",
-    fontClr: "#BBBBBB",
+    strokeClr: "rgba(66,66,161,0.57)",
+    fontClr: "#222",
     guideClr: "#0000BB"
   } : {
     bkgClr: "#202020",
@@ -46,7 +50,7 @@ function mxRuler(a, c, d, b) {
   document.body.appendChild(q);
   mxEvent.disableContextMenu(q);
   this.editorUiRefresh = a.refresh;
-  a.refresh = function(b) {
+  a.refresh = function (b) {
     l.editorUiRefresh.apply(a, arguments);
     g()
   }
@@ -64,7 +68,7 @@ function mxRuler(a, c, d, b) {
   this.graph = p;
   this.container = q;
   this.canvas = e;
-  var u = function(a, b, c, e, f) {
+  var u = function (a, b, c, e, f) {
     a = Math.round(a);
     b = Math.round(b);
     c = Math.round(c);
@@ -79,20 +83,21 @@ function mxRuler(a, c, d, b) {
       m.fillText(f, 0, 0),
       m.restore()) : m.fillText(f, a, b))
   }
-    , v = function() {
+    , v = function () {
     m.clearRect(0, 0, e.width, e.height);
     m.beginPath();
     m.lineWidth = .7;
     m.strokeStyle = n.strokeClr;
     m.setLineDash([]);
-    m.font = "9px Arial";
+    m.font = "10px Arial";
     m.textAlign = "center";
     var a = p.view.scale
       , b = p.view.getBackgroundPageBounds()
       , c = p.view.translate
       , f = p.view.getGraphBounds()
       , g = p.pageVisible
-      , q = g ? k + (d ? b.y - p.container.scrollTop : b.x - p.container.scrollLeft) : k + (d ? c.y - p.container.scrollTop : c.x - p.container.scrollLeft)
+      ,
+      q = g ? k + (d ? b.y - p.container.scrollTop : b.x - p.container.scrollLeft) : k + (d ? c.y - p.container.scrollTop : c.x - p.container.scrollLeft)
       , v = 0;
     g && (v = d ? Math.floor(((f.y + 1) / a - c.y) / p.pageFormat.height) * p.pageFormat.height * a : Math.floor(((f.x + 1) / a - c.x) / p.pageFormat.width) * p.pageFormat.width * a);
     var D, A, E;
@@ -107,13 +112,13 @@ function mxRuler(a, c, d, b) {
         A = [5, 3, 3, 3, 3, 6, 3, 3, 3, 3];
         break;
       case mxConstants.SANTIMETERS: //TODO
-        E = 1;
-        D = mxConstants.PIXELS_PER_MM * 10;
+        E = 10
+        D = mxConstants.PIXELS_PER_SM;
         A = [5, 3, 3, 3, 3, 6, 3, 3, 3, 3];
         break;
       case mxConstants.METERS: //TODO
-        E = 0.1;
-        D = mxConstants.PIXELS_PER_MM * 100;
+        E = 100;
+        D = mxConstants.PIXELS_PER_M;
         A = [5, 3, 3, 3, 3, 6, 3, 3, 3, 3];
         break;
       case mxConstants.INCHES:
@@ -122,7 +127,7 @@ function mxRuler(a, c, d, b) {
           A = [5, 3, 5, 3, 7, 3, 5, 3, 7, 3, 5, 3, 7, 3, 5, 3]
     }
     c = D;
-    2 <= a ? c = D / (2 * Math.floor(a / 2)) : .5 >= a && (c = D * Math.floor(1 / a / 2) * (l.unit == mxConstants.MILLIMETERS ? 2 : 1));
+    2 <= a ? c = D / (2 * Math.floor(a / 2)) : .5 >= a && (c = D * Math.floor(1 / a / 2) * (l.unit == mxConstants.SANTIMETERS ? 1 : (l.unit == mxConstants.MILLIMETERS ? 2 : 1)));
     D = null;
     b = g ? Math.min(q + (d ? b.height : b.width), d ? e.height : e.width) : d ? e.height : e.width;
     g && (m.fillStyle = n.outBkgClr,
@@ -144,7 +149,7 @@ function mxRuler(a, c, d, b) {
     m.fillRect(0, 0, k, k)
   };
   this.drawRuler = v;
-  this.sizeListener = c = f(function() {
+  this.sizeListener = c = f(function () {
     var a = p.container;
     d ? (a = a.offsetHeight + k,
     e.height != a && (e.height = a,
@@ -154,16 +159,16 @@ function mxRuler(a, c, d, b) {
       q.style.width = a + "px",
       v()))
   }, 10);
-  this.pageListener = function() {
+  this.pageListener = function () {
     v()
   }
   ;
-  this.scrollListener = b = f(function() {
+  this.scrollListener = b = f(function () {
     var a = d ? p.container.scrollTop : p.container.scrollLeft;
     l.lastScroll != a && (l.lastScroll = a,
       v())
   }, 10);
-  this.unitListener = function(a, b) {
+  this.unitListener = function (a, b) {
     l.setUnit(b.getProperty("unit"))
   }
   ;
@@ -173,14 +178,14 @@ function mxRuler(a, c, d, b) {
   a.addListener("pageViewChanged", this.pageListener);
   a.addListener("pageScaleChanged", this.pageListener);
   a.addListener("pageFormatChanged", this.pageListener);
-  this.setStyle = function(a) {
+  this.setStyle = function (a) {
     n = a;
     q.style.background = n.bkgClr;
     v()
   }
   ;
   this.origGuideMove = mxGuide.prototype.move;
-  mxGuide.prototype.move = function(a, b, c, e) {
+  mxGuide.prototype.move = function (a, b, c, e) {
     var f;
     if (d && 4 < a.height || !d && 4 < a.width) {
       if (null != l.guidePart)
@@ -188,13 +193,13 @@ function mxRuler(a, c, d, b) {
           m.putImageData(l.guidePart.imgData1, l.guidePart.x1, l.guidePart.y1),
             m.putImageData(l.guidePart.imgData2, l.guidePart.x2, l.guidePart.y2),
             m.putImageData(l.guidePart.imgData3, l.guidePart.x3, l.guidePart.y3)
-        } catch (K) {}
+        } catch (K) {
+        }
       f = l.origGuideMove.apply(this, arguments);
       try {
         var g, p, q, t, v, x, z, B, F;
-        m.lineWidth = .5;
+        m.lineWidth = 1;
         m.strokeStyle = n.guideClr;
-        m.setLineDash([2]);
         d ? (p = a.y + f.y + k - this.graph.container.scrollTop,
           g = 0,
           v = p + a.height / 2,
@@ -236,14 +241,15 @@ function mxRuler(a, c, d, b) {
             x3: z,
             y3: B
           }
-      } catch (K) {}
+      } catch (K) {
+      }
     } else
       f = l.origGuideMove.apply(this, arguments);
     return f
   }
   ;
   this.origGuideDestroy = mxGuide.prototype.destroy;
-  mxGuide.prototype.destroy = function() {
+  mxGuide.prototype.destroy = function () {
     var a = l.origGuideDestroy.apply(this, arguments);
     if (null != l.guidePart)
       try {
@@ -251,7 +257,8 @@ function mxRuler(a, c, d, b) {
           m.putImageData(l.guidePart.imgData2, l.guidePart.x2, l.guidePart.y2),
           m.putImageData(l.guidePart.imgData3, l.guidePart.x3, l.guidePart.y3),
           l.guidePart = null
-      } catch (z) {}
+      } catch (z) {
+      }
     return a
   }
 }
@@ -268,9 +275,9 @@ mxRuler.prototype.formatText = function (a) {
     case mxConstants.MILLIMETERS:
       return (a / mxConstants.PIXELS_PER_MM).toFixed(1);
     case mxConstants.SANTIMETERS:
-      return (a / mxConstants.PIXELS_PER_MM / 10).toFixed(2);
+      return (a / mxConstants.PIXELS_PER_SM).toFixed(2);
     case mxConstants.METERS:
-      return (a / mxConstants.PIXELS_PER_MM / 100).toFixed(2);
+      return (a / mxConstants.PIXELS_PER_M).toFixed(2);
     case mxConstants.INCHES:
       return (a / mxConstants.PIXELS_PER_INCH).toFixed(2)
   }

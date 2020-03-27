@@ -2,6 +2,8 @@ var pallete = [];
 
 api('GetPalette').then(function (data) {
   pallete = data;
+
+  m.sidebar.addTopologyPallete(true);
 }).catch(function () {
   pallete = [{
     "displayName": "Ворота",
