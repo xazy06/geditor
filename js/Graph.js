@@ -3434,11 +3434,13 @@ HoverIcons.prototype.init = function()
       {
         var evt = me.getEvent();
 
-        document.getElementById('mouse-bar').innerHTML =
+        try {
+          document.getElementById('mouse-bar').innerHTML =
           (
             '<strong>Положение указателя мыши</strong><br/>x: ' +  me.getGraphX()+ ' px, ' + 'y: ' +  me.getGraphY() + ' px <br/>' +
-            'x: ' + parseFloat(me.getGraphX()/3.937).toFixed(1) + ' mm, ' + 'y: ' +  parseFloat(me.getGraphY()/3.937).toFixed(1) + ' mm'
+            'x: ' + parseFloat(me.getGraphX()/mxConstants.PIXELS_PER_MM).toFixed(1) + ' mm, ' + 'y: ' +  parseFloat(me.getGraphY()/mxConstants.PIXELS_PER_MM).toFixed(1) + ' mm'
           );
+        }catch(e) {}
 
         if (this.isResetEvent(evt))
         {
