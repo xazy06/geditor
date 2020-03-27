@@ -45,9 +45,7 @@
     window['Load'] = topology.actions.Load;
 
     window.topology.editor = main;
-
-    m.editor.graph.setGridSize('0.3');
-
+    
   }, function () {
     document.body.innerHTML = '<div style="margin:10% auto 0;">Error loading resource files. Please check browser console.</div>';
   });

@@ -137,7 +137,7 @@ mxGraphView.prototype.defaultGridColor = '#99004D';
 mxGraphView.prototype.gridColor = mxGraphView.prototype.defaultGridColor;
 
 //Units
-mxGraphView.prototype.unit = mxConstants.POINTS;
+mxGraphView.prototype.unit = mxConstants.MILLIMETERS;
 
 mxGraphView.prototype.setUnit = function(unit)
 {
