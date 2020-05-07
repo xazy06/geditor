@@ -12,4 +12,6 @@
 
 # sudo rm -R .git
 
-sudo rm -R * && git clone https://github.com/xazy06/geditor.git && cd geditor && git checkout staging && git pull && npm install && sudo rm -R .git && pm2 stop server.js && pm2 start server.js && cd server && dotnet TopologyBack.dll ./../Files
+sudo rm -R * && git clone https://github.com/xazy06/geditor.git && cd geditor &&
+ git checkout staging && git pull && npm install && sudo rm -R .git &&
+ pm2 stop server.js && pm2 start server.js && cd server && dotnet TopologyBack.dll ./../Files

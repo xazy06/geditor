@@ -35,7 +35,7 @@
     themes[Graph.prototype.defaultThemeName] = xhr[1].getDocumentElement();
 
     // Main
-    var main = new EditorUi(new Editor(urlParams['chrome'] == '0', themes));
+    var main = new EditorUi(new Editor(urlParams['chrome'] == '0', themes), document.getElementById('main'));
 
     window.m = main;
 
@@ -45,7 +45,7 @@
     window['Load'] = topology.actions.Load;
 
     window.topology.editor = main;
-    
+
   }, function () {
     document.body.innerHTML = '<div style="margin:10% auto 0;">Error loading resource files. Please check browser console.</div>';
   });
