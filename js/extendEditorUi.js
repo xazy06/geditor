@@ -43,6 +43,8 @@
 
     window['New'] = topology.actions.New;
     window['Load'] = topology.actions.Load;
+    window['Save'] = topology.actions.Save;
+    window['Load'] = topology.actions.Load;
 
     window.topology.editor = main;
 
